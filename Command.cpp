@@ -281,7 +281,7 @@ STDMETHODIMP CCUBRIDCommand::PrepareCommand(int hConn, UINT uCodepage, REFIID ri
 
     if(prepareFlag&CCI_PREPARE_UPDATABLE)
     {
-        cci_set_holdability(hConn, 0);
+    //    cci_set_holdability(hConn, 0);
     }
 	if ((return_code = cci_prepare(hConn, CW2A(m_strCommandText.m_str, uCodepage), prepareFlag, &error)) < 0)
 	{

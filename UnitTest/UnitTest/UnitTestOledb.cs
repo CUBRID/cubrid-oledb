@@ -73,7 +73,7 @@ namespace UnitTest
             //
             // TODO: Add test logic	here
             //
-            //return;
+            return;
             TestCasesOld.testcase();
         }
 
@@ -83,7 +83,7 @@ namespace UnitTest
             //
             // TODO: Add test logic	here
             //
-            //return;
+            return;
             TestCases.TestIssue();
         }
         [TestMethod]
@@ -92,7 +92,7 @@ namespace UnitTest
             //
             // TODO: Add test logic	here
             //
-            //return;
+            return;
             TestCases.TestTransaction();
         }
 

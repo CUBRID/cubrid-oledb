@@ -200,6 +200,10 @@ namespace UnitTest
                 Assert.IsTrue(tran.IsolationLevel == IsolationLevel.ReadCommitted);
                 tran.Commit();
 
+                tran = conn.BeginTransaction(IsolationLevel.ReadUncommitted);
+                Assert.IsTrue(tran.IsolationLevel == IsolationLevel.ReadUncommitted);
+                tran.Commit();
+
                 tran = conn.BeginTransaction(IsolationLevel.RepeatableRead);
                 Assert.IsTrue(tran.IsolationLevel == IsolationLevel.RepeatableRead);
                 tran.Commit();

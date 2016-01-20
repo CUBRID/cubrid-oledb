@@ -6,7 +6,7 @@
 
 
  /* File created by MIDL compiler version 7.00.0500 */
-/* at Tue Dec 15 14:22:38 2015
+/* at Sat Sep 13 14:14:51 2014
  */
 /* Compiler settings for .\_CUBRIDProvider.idl:
     Oicf, W1, Zp8, env=Win64 (32b run)
