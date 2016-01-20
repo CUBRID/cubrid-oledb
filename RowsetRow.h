@@ -55,17 +55,16 @@ private:
 	ATLCOLUMNINFO *m_pInfo;
 	CComPtr<IDataConvert> m_spConvert;
 	CAtlArray<CStringA>* m_defaultVal;
-	INT m_con;
 
 private:
 	// m_rgColumns 메모리를 해제
 	void FreeData();
 public:
 	CCUBRIDRowsetRow(UINT uCodepage, DBCOUNTITEM iRowset, DBORDINAL cCols, ATLCOLUMNINFO *pInfo, 
-				CComPtr<IDataConvert> &spConvert, CAtlArray<CStringA>* defaultVal = NULL, INT con = -1)
+				CComPtr<IDataConvert> &spConvert, CAtlArray<CStringA>* defaultVal = NULL)
 		: m_uCodepage(uCodepage), m_dwRef(0), m_rgColumns(0), m_status(0), m_iRowset(iRowset),
 		  m_iOriginalRowset(iRowset), m_cColumns(cCols), m_pInfo(pInfo), m_defaultVal(defaultVal),
-		  m_spConvert(spConvert), m_con(con)
+		  m_spConvert(spConvert)
 	{
 		ATLTRACE(atlTraceDBProvider, 3, "CCUBRIDRowsetRow::CCUBRIDRowsetRow\n");
 		m_szOID[0] = NULL;

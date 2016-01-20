@@ -203,7 +203,7 @@ END_PROPSET_MAP()
 		//ATLASSERT(cmd_type==CUBRID_STMT_SELECT || cmd_type==CUBRID_STMT_INSERT);
 
 		rc = cci_get_db_parameter(hConn, CCI_PARAM_MAX_STRING_LENGTH, &ulMaxLen, &error);
-		if (rc < 0)  ulMaxLen = 1073741823;//return RaiseError(E_FAIL, 1, __uuidof(IColumnsRowset), CA2W(error.err_msg, uCodepage));
+		if (rc < 0) return RaiseError(E_FAIL, 1, __uuidof(IColumnsRowset), CA2W(error.err_msg, uCodepage));
 
 		CAtlArray<Type::TableInfo> tbl_infos;
 		if(szTableName)

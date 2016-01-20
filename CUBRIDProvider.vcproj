@@ -67,7 +67,6 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
-				EnablePREfast="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -96,7 +95,6 @@
 				DataExecutionPrevention="0"
 				ImportLibrary="$(OutDir)/CUBRIDProvider.lib"
 				TargetMachine="1"
-				Profile="true"
 			/>
 			<Tool
 				Name="VCALinkTool"

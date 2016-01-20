@@ -335,7 +335,6 @@ struct ATLCOLUMNINFO
 	BYTE bScale;
 	DBID columnid;
 	DBBYTEOFFSET cbOffset;
-	INT u_type;
 };
 
 //

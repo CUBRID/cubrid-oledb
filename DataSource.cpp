@@ -63,22 +63,18 @@ STDMETHODIMP CCUBRIDDataSource::Initialize(void)
 	{
 		CConnectionProperties props;
 		Util::GetConnectionProperties((IDBProperties*) this, props);
-		T_CCI_ERROR error;
-		int hConn = cci_connect_ex(CW2A(props.strAddr), props.nPort, CW2A(props.strDB), CW2A(props.strUser), CW2A(props.strPass),&error);
+		int hConn = cci_connect(CW2A(props.strAddr), props.nPort, CW2A(props.strDB), CW2A(props.strUser), CW2A(props.strPass));
 		if(hConn<0)
 		{
 			if(hConn==CCI_ER_NO_MORE_MEMORY)
 				return E_OUTOFMEMORY;
 
 			// wrong hostname
-			CComVariant var;
-			var = DBPROPVAL_CS_COMMUNICATIONFAILURE;
-			SetPropValue(&DBPROPSET_DATASOURCEINFO, DBPROP_CONNECTIONSTATUS, &var);
-
-			return RaiseError(E_FAIL, 1, __uuidof(IDBInitialize), CA2W(error.err_msg));
+			return DB_SEC_E_AUTH_FAILED;
 		}
 
 		char buf[16];
+		T_CCI_ERROR error;
 		int rc = cci_get_db_version(hConn, buf, sizeof(buf));
 		if(rc<0)
 		{
@@ -99,15 +95,13 @@ STDMETHODIMP CCUBRIDDataSource::Initialize(void)
 		rc = cci_get_db_parameter(hConn, CCI_PARAM_MAX_STRING_LENGTH, &PARAM_MAX_STRING_LENGTH, &error);
 		if (rc < 0)
 		{
-			/*
 			cci_disconnect(hConn, &error);
+
 			CComVariant var;
 			var = DBPROPVAL_CS_COMMUNICATIONFAILURE;
 			SetPropValue(&DBPROPSET_DATASOURCEINFO, DBPROP_CONNECTIONSTATUS, &var);
 
-			return RaiseError(E_FAIL, 1, __uuidof(IDBInitialize), CA2W(error.err_msg));
-			*/
-			PARAM_MAX_STRING_LENGTH=1073741823;
+			return RaiseError(E_FAIL, 0, __uuidof(IDBInitialize), CA2W(error.err_msg));
 		}
 
 		cci_disconnect(hConn, &error);

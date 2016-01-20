@@ -737,7 +737,6 @@ HRESULT CColumnsInfo::GetColumnInfoCommon(UINT uCodepage, T_CCI_COL_INFO* info, 
 		}
 		m_pInfo[i].pTypeInfo = NULL;
 		m_pInfo[i].iOrdinal = iOrdinal;
-		m_pInfo[i].u_type = info->ext_type;
 
 		// method를 통해 생성된 result-set은 그 column-name을 "METHOD_RESULT"
 		// 로 설정하고 column-type은 varchar로 지정한다.
