@@ -1,0 +1,24 @@
+HKCR
+{
+	CUBRID.ErrorLookup.8.4 = s 'CUBRID OLE DB Provider Error Lookup Service'
+	{
+		CLSID = s '{3165D76D-CB91-482F-9378-00C216FD5F32}'
+	}
+	CUBRID.ErrorLookup = s 'CUBRID OLE DB Provider Error Lookup Service'
+	{
+		CLSID = s '{3165D76D-CB91-482F-9378-00C216FD5F32}'
+		CurVer = s 'CUBRID.ErrorLookup.8.4'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {3165D76D-CB91-482F-9378-00C216FD5F32} = s 'CUBRID OLE DB Provider Error Lookup Service'
+		{
+			ProgID = s 'CUBRID.ErrorLookup.8.4'
+			VersionIndependentProgID = s 'CUBRID.ErrorLookup'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+		}
+	}
+}

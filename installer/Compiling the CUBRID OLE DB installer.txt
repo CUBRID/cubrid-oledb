@@ -1,0 +1,36 @@
+Compiling the CUBRID OLE DB installer.txt
+==========================================
+Last updated: January 2013
+
+
+Introduction
+==========================================
+The CUBRID OLE DB installer is open-source code, BSD licensed and built using NSIS.
+NSIS (Nullsoft Scriptable Install System) is a professional open source system for creating Windows installers. 
+It is designed to be as small and flexible as possible and is therefore very suitable for internet distribution.
+(http://nsis.sourceforge.net/Main_Page)
+
+We choosed NSIS because it is widely used in open source projects, it is script-based 
+and it allows you to create the logic to handle even the most complex installation tasks. 
+
+
+Updating and compiling the installer
+==========================================
+The source code for the installer is located in the CUBRID SVN repository:
+http://svn.cubrid.org/cubridapis/oledb/branches/RB-9.0.0/Installer - .nsi file(s).
+
+If you want to compile the installer yourself (and maybe change it), we recommend the followings:
+- Download the installer script source code - see the above specified location
+- Update the instaler script, if needed; we recommend using HM NIS Edit tool (http://hmne.sourceforge.net/).
+"HM NIS Edit is the best Editor/IDE for Nullsoft Scriptable Install System (NSIS). 
+It is useful for both experts and beginners to create setup/installers with the NSIS. 
+Its Script Wizard will help you to create standard Setup programs with only a few clicks..." 
+- Compile the installer script. (If you use HM NIS Edit it is just a matter of clicking a toolbar button)
+
+
+
+Thank you,
+
+The CUBRID API team
+www.cubrid.org
+

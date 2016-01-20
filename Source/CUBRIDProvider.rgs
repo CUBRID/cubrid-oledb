@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'CUBRID.Provider'
+		'CUBRIDProvider.dll'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}

@@ -1,0 +1,13 @@
+CUBRID OLE DB Provider - Installation guide
+
+Steps:
+
+1. Install Visual Studio 2010 Redistributable,
+    if you don't have it already.
+
+
+2. Install the driver, using the installer.
+
+
+3. Copy cascci.dll to the installation folder,
+    if you don't have the CURID client installed already.

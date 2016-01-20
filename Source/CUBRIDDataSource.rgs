@@ -1,0 +1,30 @@
+HKCR
+{
+	CUBRID.Provider.9.0 = s 'CUBRID OLE DB Provider'
+	{
+		CLSID = s '{15A12058-4353-4C9A-8421-23D80F25EE4E}'
+	}
+	CUBRID.Provider = s 'CUBRID OLE DB Provider'
+	{
+		CLSID = s '{15A12058-4353-4C9A-8421-23D80F25EE4E}'
+		CurVer = s 'CUBRID.Provider.9.0'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {15A12058-4353-4C9A-8421-23D80F25EE4E} = s 'CUBRID.Provider'
+		{
+			ExtendedErrors = s 'Extended Error Service'
+			{
+				{3165D76D-CB91-482F-9378-00C216FD5F32} = s 'CUBRID OLE DB Provider Error Lookup Service'
+			}
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			ProgID = s 'CUBRID.Provider.9.0'
+			VersionIndependentProgID = s 'CUBRID.Provider'
+			'OLE DB Provider' = s 'CUBRID OLE DB Provider'
+			val AppID = s '{2B22247F-E9F7-47E8-A9B0-79E8039DCFC8}'
+		}
+	}
+}

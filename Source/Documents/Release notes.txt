@@ -1,0 +1,78 @@
+Release Notes
+========================================================================================
+CUBRID OLEDB Data Provider
+Version: 9.0.0
+CUBRID engine compatibility: 9.0.0
+Home site: http://www.cubrid.org/wiki_apis/entry/cubrid-oledb-driver
+========================================================================================
+
+History
+========================================================================================
+January 2013 - Updates and bug fixes:
+- Bug fixes: Internal error handling, Localization, COlumn privileges schema
+- Code reformat
+- Driver name changed back to "CUBRID.Provider"
+
+November 2012 - Updates and bug fixes:
+- Bug fixes: Localization, Table catalog, Provider info
+- Code reformat
+- Small code improvements
+- Catalog schema removal (not supported by CUBRID)
+
+May 2012 - Update for release 8.4.1
+ - First release
+
+
+General development notes
+========================================================================================
+- The driver code is based on the legacy CUBRID 3.1 OLE DB provider code and architecture
+- Various enhancements and support for latest CUBRID releases have been implemented
+- We have focused on supporting OLE DB Consumer templates (http://msdn.microsoft.com/en-us/library/8k76sd16%28v=vs.80%29.aspx). 
+  Direct OLE DB interfaces should work as well, but the technology is deprecated.
+- A full suite of open source test cases is now part of the driver code base release
+- Regarding .NET support (via System.Data.OleDb namespace), we are encouraging the use of the fully managed CUBRID ADO.NET driver 
+  (http://www.cubrid.org/wiki_apis/entry/cubrid-ado-net-driver).
+
+New additions since 3.1
+========================================================================================
+- Added test cases coverage as part of the driver code base. There are 60+ test cases available in the suite.
+- Updated the provider naming & versioning (now in synch with engine releases)
+- Added BLOB/CLOB support
+- Added support for localization (messages, errors content)
+- Added an Installer for the provider library
+- Enhanced schema rowsets support
+- Various fixes and improvements; project & code cleanup.
+- Driver tutorials created
+
+The driver code is being released under the BSD license (http://www.cubrid.org/bsd_license).
+
+
+Release components
+========================================================================================
+- Driver source code (http://svn.cubrid.org/cubridapis/oledb/branches/RB-8.4.1/Source/)
+- Driver release (CUBRIDProvider.dll)
+- Driver installer
+- Release notes
+- Test cases suite
+- Tutorials
+
+
+Known limitations
+========================================================================================
+- There is limited support for queries not based on tables structures (Dynamic Accessors), in terms of inferred columns definitions.
+- There is no full support yet for BLOB/BLOB Dynamic Accessors
+- Update() support is restricted to Auto-Commit mode = Off, which must be explicitly stated via session transaction.
+- Not all schema are implemented: http://msdn.microsoft.com/en-us/library/a6fhbff0%28v=vs.71%29.aspx.
+- More test coverage is required for testing non-standard data types
+- We are supporting mainly C++ OLE DB templates; there is limited or no support for other driver usages (direct interfaces or via .NET)
+- Very limited support for some special data types: SET, MUTISET and SEQUENCE. 
+
+
+We always welcome your feedback and suggestions - please let us know your feedback!
+
+Thank you!
+The CUBRID APIs team
+
+http://www.cubrid.org
+
+
