@@ -3,7 +3,7 @@
   <Description>This is a default test run configuration for a local test run.</Description>
   <CodeCoverage enabled="true">
     <Regular>
-      <CodeCoverageItem binaryFile="Win32\Debug\CUBRIDProvider.dll" pdbFile="Win32\Debug\CUBRIDProvider.pdb" instrumentInPlace="true" />
+      <CodeCoverageItem binaryFile="F:\05SVN\CUBRID\cubridapis\oledb\trunk\Win32\Debug\CUBRIDProvider.dll" pdbFile="F:\05SVN\CUBRID\cubridapis\oledb\trunk\Win32\Debug\CUBRIDProvider.pdb" instrumentInPlace="true" />
     </Regular>
   </CodeCoverage>
   <TestTypeSpecific>

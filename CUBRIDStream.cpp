@@ -52,7 +52,7 @@ void CCUBRIDStream::Initialize(int hConn, UINT uCodepage, char* cur_oid, T_CCI_C
 	strcpy(m_OID, cur_oid);
 
 	m_colName = _wcsdup(CA2W(info.real_attr, uCodepage));
-	m_colType = info.ext_type;
+	m_colType = info.type;
 	m_colPrecision = info.precision;
 	m_colScale = info.scale;
 }

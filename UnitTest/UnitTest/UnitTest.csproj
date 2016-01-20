@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2A34C93C-E9A2-4EED-9ABC-1F325D0328C6}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -51,7 +51,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -61,20 +60,12 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestOleDbConnectionBuilder.cs" />
-    <Compile Include="TestOleDbConnection.cs" />
-    <Compile Include="TestOleDbCommandBuilder.cs" />
-    <Compile Include="TestOleDbCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestCases.NET.cs" />
-    <Compile Include="TestCommonMethod.cs" />
-    <Compile Include="TestOleDbDataAdapter.cs" />
-    <Compile Include="TestOleDbTransaction.cs" />
     <Compile Include="UnitTestCaseIssue.cs" />
     <Compile Include="UnitTestOledb.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="ManualTest1.mht" />
   </ItemGroup>
   <ItemGroup>

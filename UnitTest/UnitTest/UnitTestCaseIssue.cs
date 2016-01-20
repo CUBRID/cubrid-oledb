@@ -7,10 +7,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest
 {
-    public partial class TestCases
+    public class TestCaseIssue
     {
-        private static readonly string connString = TestCasesOld.connString;
-        public static OleDbConnection conn = new OleDbConnection();
+        private static readonly string connString =
+         "Provider=CUBRIDProvider;Location=192.168.189.134;Data Source=demodb;User Id=dba;Port=30000";
+        private static OleDbConnection conn = new OleDbConnection();
 
         public static void TestCase_init()
         {
@@ -21,14 +22,50 @@ namespace UnitTest
         {
             conn.Close();
         }
-        public static void TestIssue()
+        static private void ExecuteMultiQueries(OleDbConnection conn, string[] multiQueries)
         {
-            TestCases.case_select();
-            TestCases.case_connInfo();
-            TestCases.case_dataset();
-            TestCases.case_GetDataTypeName();
-            TestCases.case_GetInt16_OverBound_Min();
-            TestCases.case_GetInt16_OverBound_Max();
+            OleDbCommand command = new OleDbCommand();
+            command.Connection = conn;
+            foreach (string query in multiQueries)
+            {
+                try
+                {
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            command.Dispose();
+        }
+        private static void DisplayData(System.Data.DataTable table)
+        {
+            foreach (System.Data.DataRow row in table.Rows)
+            {
+                foreach (System.Data.DataColumn col in table.Columns)
+                {
+                    Console.WriteLine("{0} = {1}", col.ColumnName, row[col]);
+                }
+                Console.WriteLine("============================");
+            }
+        }
+        static private OleDbDataReader CreateReader(OleDbConnection conn, string query)
+        {
+            OleDbCommand command = new OleDbCommand();
+            command.Connection = conn;
+            command.CommandText = query;
+            OleDbDataReader OleDbReader = command.ExecuteReader();
+            OleDbReader.Read();
+            return OleDbReader;
+        }
+        private static void ExecuteSQL(string sql, OleDbConnection conn)
+        {
+            using (OleDbCommand cmd = new OleDbCommand(sql, conn))
+            {
+                cmd.ExecuteNonQuery();
+            }
         }
         public static void case_select()
         {
@@ -47,6 +84,56 @@ namespace UnitTest
                 {
                     Console.WriteLine("no data.");
                 }
+            }
+        }
+        public static void case_transaction()
+        {          
+            OleDbCommand command = new OleDbCommand();
+            OleDbTransaction transaction = null;
+
+            // Set the Connection to the new OleDbConnection.
+            command.Connection = conn;
+
+            // Open the connection and execute the transaction.
+            try
+            {
+                Console.WriteLine("connection.Database:" + conn.Database);
+
+                ExecuteSQL("drop table if exists t;", conn);
+                ExecuteSQL("create table t(dt bit);", conn);
+
+                // Start a local transaction
+                transaction = conn.BeginTransaction();
+
+                // Assign transaction object for a pending local transaction.
+                command.Connection = conn;
+                command.Transaction = transaction;
+
+                // Execute the commands.
+                command.CommandText = "Insert into t (dt) VALUES (B'1')";
+                command.ExecuteNonQuery();
+                System.Console.WriteLine("Insert 1");
+                // output();
+                transaction.Commit();
+                Console.WriteLine("Both records are written to database.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                try
+                {
+                    // Attempt to roll back the transaction.
+                    Console.WriteLine("before end.");
+                    transaction.Rollback();
+                    Console.WriteLine("Rollback end.");
+                }
+                catch
+                {
+                    // Do nothing here; transaction is not active.
+                }
+            }
+            finally
+            {
             }
         }
         public static void case_connInfo()
@@ -68,12 +155,12 @@ namespace UnitTest
         }
         public static void case_dataset()
         {
-            //OleDbDataAdapter da=new OleDbDataAdapter("select * from code;",conn);
+            OleDbDataAdapter da=new OleDbDataAdapter("select * from code;",conn);
 
-            //DataSet ds = new DataSet();
-            //da.Fill(ds);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
 
-            //DisplayData(ds.Tables[0]);
+            DisplayData(ds.Tables[0]);
         }
         public static void case_datatable()
         {

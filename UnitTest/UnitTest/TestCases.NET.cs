@@ -43,7 +43,7 @@ namespace UnitTest
     /// </summary>
     public class TestCasesOld
     {
-        public static readonly string connString = "Provider=CUBRIDProvider;Location=test-db-server;Data Source=demodb;User Id=dba;Port=30000";
+        private static readonly string connString = "Provider=CUBRIDProvider;Location=192.168.189.133;Data Source=demodb;User Id=dba;Port=30000";
 
         static int executed = 0;
         static int passed = 0;
@@ -328,7 +328,7 @@ namespace UnitTest
 
         #region Helpers
 
-        private static OleDbConnection GetDemOleDbonnection()
+        private static OleDbConnection GetDemodbConnection()
         {
             OleDbConnection conn = new OleDbConnection(TestCasesOld.connString);
             conn.Open();

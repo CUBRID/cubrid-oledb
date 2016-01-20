@@ -42,19 +42,17 @@ namespace UnitTest
         // You can use the following additional attributes as you write your tests:
         //
         // Use ClassInitialize to run code before running the first test in the class
-         //[ClassInitialize()]
-         [AssemblyInitialize]
-         public static void AsseblyInitialize(TestContext testContext)
+         [ClassInitialize()]
+         public static void MyClassInitialize(TestContext testContext)
          {
-             TestCases.TestCase_init();
+             TestCaseIssue.TestCase_init();
          }
         //
         // Use ClassCleanup to run code after all tests in a class have run
-         //[ClassCleanup()]
-        [AssemblyCleanup]
-         public static void AsseblyCleanup() 
+         [ClassCleanup()]
+         public static void MyClassCleanup() 
          {
-             TestCases.TestCase_dinit();
+             TestCaseIssue.TestCase_init();
          }
         //
         // Use TestInitialize to run code before running each test 
@@ -73,40 +71,22 @@ namespace UnitTest
             //
             // TODO: Add test logic	here
             //
-            //return;
             TestCasesOld.testcase();
         }
 
         [TestMethod]
-        public void Issue()
+        public void TestMethodIssue()
         {
             //
             // TODO: Add test logic	here
             //
-            //return;
-            TestCases.TestIssue();
+            TestCaseIssue.case_select();
+            TestCaseIssue.case_transaction();
+            TestCaseIssue.case_connInfo();
+            TestCaseIssue.case_dataset();
+            TestCaseIssue.case_GetDataTypeName();
+            TestCaseIssue.case_GetInt16_OverBound_Min();
+            TestCaseIssue.case_GetInt16_OverBound_Max();
         }
-        [TestMethod]
-        public void Transaction()
-        {
-            //
-            // TODO: Add test logic	here
-            //
-            //return;
-            TestCases.TestTransaction();
-        }
-
-        [TestMethod]
-        public void OleDbCommand()
-        {
-            //
-            // TODO: Add test logic	here
-            //
-            //return;
-            TestCases.Test_OleDbCommand();
-            TestCases.Test_OleDbCommandBuilder();
-            TestCases.Test_OleDbConnection();
-            TestCases.Test_OleDbConnectionStringBuilder();
-        }
-    } 
+    }
 }
