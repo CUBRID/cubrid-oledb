@@ -107,9 +107,9 @@ HRESULT CCUBRIDSession::SetCASCCIIsoLevel(ISOLEVEL isoLevel, bool bCheckOnly)
 	switch(isoLevel)
 	{
 	case ISOLATIONLEVEL_READUNCOMMITTED:
-		return XACT_E_ISOLATIONLEVEL;
+		cci_isolevel = TRAN_COMMIT_CLASS_UNCOMMIT_INSTANCE; break;
 	case ISOLATIONLEVEL_READCOMMITTED:
-		cci_isolevel = TRAN_REP_CLASS_COMMIT_INSTANCE; break;
+		cci_isolevel = TRAN_COMMIT_CLASS_COMMIT_INSTANCE; break;
 	case ISOLATIONLEVEL_REPEATABLEREAD:
 		cci_isolevel = TRAN_REP_CLASS_REP_INSTANCE; break;
 	case ISOLATIONLEVEL_SERIALIZABLE:
@@ -122,7 +122,7 @@ HRESULT CCUBRIDSession::SetCASCCIIsoLevel(ISOLEVEL isoLevel, bool bCheckOnly)
 	{
 		T_CCI_ERROR err_buf;
 		int rc = cci_set_db_parameter(m_hConn, CCI_PARAM_ISOLATION_LEVEL, &cci_isolevel, &err_buf);
-		if(rc<0) return XACT_E_ISOLATIONLEVEL;
+		if(rc<0) return E_FAIL;
 		m_isoLevel = isoLevel;
 	}
 
@@ -131,13 +131,13 @@ HRESULT CCUBRIDSession::SetCASCCIIsoLevel(ISOLEVEL isoLevel, bool bCheckOnly)
 	return S_OK;
 }
 
-HRESULT CCUBRIDSession::EnterAutoCommitMode(ISOLEVEL level)
+void CCUBRIDSession::EnterAutoCommitMode()
 {
 	m_bAutoCommit = true;
 
-	CComVariant var=level;
-	SetPropValue(&DBPROPSET_SESSION, DBPROP_SESS_AUTOCOMMITISOLEVELS, &var);
-	return SetCASCCIIsoLevel(V_I4(&var));
+	CComVariant var;
+	GetPropValue(&DBPROPSET_SESSION, DBPROP_SESS_AUTOCOMMITISOLEVELS, &var);
+	SetCASCCIIsoLevel(V_I4(&var));
 }
 
 STDMETHODIMP CCUBRIDSession::GetOptionsObject(ITransactionOptions **ppOptions)
@@ -171,16 +171,12 @@ STDMETHODIMP CCUBRIDSession::Commit(BOOL fRetaining, DWORD grfTC, DWORD grfRM)
 	if(grfTC==XACTTC_ASYNC_PHASEONE || grfTC==XACTTC_SYNC_PHASEONE || grfRM!=0) return XACT_E_NOTSUPPORTED;
 	if(m_bAutoCommit) return XACT_E_NOTRANSACTION;
 
-	CComVariant var;
-	GetPropValue(&DBPROPSET_SESSION, DBPROP_SESS_AUTOCOMMITISOLEVELS, &var);
-	SetCASCCIIsoLevel(V_I4(&var));
-
-
 	HRESULT hr = DoCASCCICommit(true);
 	if(FAILED(hr)) return hr;
 
 	// fRetaining==true 면 transaction을 유지한다.
 	if(!fRetaining) m_bAutoCommit = true; //EnterAutoCommitMode();
+
 	return S_OK;
 }
     
@@ -190,10 +186,6 @@ STDMETHODIMP CCUBRIDSession::Abort(BOID *pboidReason, BOOL fRetaining, BOOL fAsy
 
 	if(fAsync) return XACT_E_NOTSUPPORTED;
 	if(m_bAutoCommit) return XACT_E_NOTRANSACTION;
-
-	CComVariant var;
-	GetPropValue(&DBPROPSET_SESSION, DBPROP_SESS_AUTOCOMMITISOLEVELS, &var);
-	SetCASCCIIsoLevel(V_I4(&var));
 
 	HRESULT hr = DoCASCCICommit(false);
 	if(FAILED(hr)) return hr;

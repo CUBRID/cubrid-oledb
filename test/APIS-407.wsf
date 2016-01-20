@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<job>
+<script language="jscript">
+	eval(new ActiveXObject("Scripting.FileSystemObject").OpenTextFile("inc.js", 1).ReadAll());
+
+	conn.Execute('drop table [테이블1]');
+	conn.Execute('create table [테이블1] (id int, [컬럼1] varchar(6), [列2] char(6))');
+	conn.Execute("insert into [테이블1] (id, [컬럼1], [列2]) values (1, '일', '一')");
+	conn.Execute("insert into [테이블1] (id, [컬럼1], [列2]) values (2, '이', '二')");
+	conn.Execute("insert into [테이블1] (id, [컬럼1], [列2]) values (3, '삼', '三')");
+	conn.Execute("insert into [테이블1] (id, [컬럼1], [列2]) values (4, '사', '四')");
+	conn.Execute("insert into [테이블1] (id, [컬럼1], [列2]) values (5, '오', '五')");
+	conn.Execute("insert into [테이블1] (id, [컬럼1], [列2]) values (6, '하하', '哈哈')");
+
+	var rs = conn.Execute('select * from [테이블1]');
+	rs.MoveFirst();
+	var id, col1, col2;
+
+	while (!rs.EOF) {
+		id = rs(0);
+		col1 = rs("컬럼1");
+		col2 = rs("列2");
+
+	 	console.log("" + id + " | " + col1 + " | " + col2);
+	 	rs.MoveNext();
+	 }
+
+	rs.Close();
+	conn.Close();
+
+</script>
+</job>

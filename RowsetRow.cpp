@@ -41,7 +41,7 @@
 class CCUBRIDRowsetRowColumn
 {
 public:
-	CCUBRIDRowsetRowColumn(UINT uCodepage, INT con = -1) : m_uCodepage(uCodepage), m_strData(0), m_cbDataLen(0), m_dwStatus(DBSTATUS_S_ISNULL), m_con(con)
+	CCUBRIDRowsetRowColumn(UINT uCodepage) : m_uCodepage(uCodepage), m_strData(0), m_cbDataLen(0), m_dwStatus(DBSTATUS_S_ISNULL)
 	{
 		ATLTRACE(atlTraceDBProvider, 3, "CCUBRIDRowsetRowColumn::CCUBRIDRowsetRowColumn\n");
 	}
@@ -52,11 +52,9 @@ public:
 	}
 
 	UINT m_uCodepage;
-	INT m_con;
 
 	// 메모리는 new가 아닌 malloc에 의해 할당된다.
 	PWSTR m_strData;
-	char *m_byteData;
 	// string의 length. type의 length(DBTYPE_U4는 4)가 아님.
 	DBLENGTH m_cbDataLen;
 	// DBSTATUS_S_OK : 제대로 된 값
@@ -69,20 +67,19 @@ public:
 	// 복사후 상태와 길이를 *pdwStatus, *pcbDataLen에 반환한다.
 	HRESULT TransferData(CComPtr<IDataConvert> &spConvert, int iOrdinal, DBTYPE wType,
 						BYTE bPrecision, BYTE bScale, void *pData, DBLENGTH cbMaxLen,
-						DBSTATUS *pdwStatus, DBLENGTH *pcbDataLen, INT u_type = -1);
+						DBSTATUS *pdwStatus, DBLENGTH *pcbDataLen);
 	// wType의 pData로 부터 m_strData의 데이터를 채운다.
 	HRESULT ReadData(CComPtr<IDataConvert> &spConvert, DBTYPE wType,
 					BYTE *pData, DBLENGTH cbLength, ATLCOLUMNINFO *pInfo, UINT uCodepage);
 	// storage로 부터 m_strData를 채운다.
-	HRESULT ReadData(int hReq, int iOrdinal, DBTYPE wType, INT u_type = -1);
-	
+	HRESULT ReadData(int hReq, int iOrdinal, DBTYPE wType);
 	// storage에 데이터를 기록
 	HRESULT WriteData(int hReq, int nPos, ATLCOLUMNINFO *pInfo);
 };
 
 HRESULT CCUBRIDRowsetRowColumn::TransferData(CComPtr<IDataConvert> &spConvert, int /*iOrdinal*/,
 							DBTYPE wType, BYTE bPrecision, BYTE bScale, void *pData,
-							DBLENGTH cbMaxLen, DBSTATUS *pdwStatus, DBLENGTH *pcbDataLen, INT u_type)
+							DBLENGTH cbMaxLen, DBSTATUS *pdwStatus, DBLENGTH *pcbDataLen)
 {
 	ATLTRACE(atlTraceDBProvider, 2, "CCUBRIDRowsetRowColumn::TransferData\n");
 
@@ -108,18 +105,8 @@ HRESULT CCUBRIDRowsetRowColumn::TransferData(CComPtr<IDataConvert> &spConvert, i
 	DBLENGTH cbDst = m_cbDataLen;
 	HRESULT hr;
 
-	if(u_type == CCI_U_TYPE_BLOB || 
-	      u_type == CCI_U_TYPE_CLOB)
-	{
-	  hr = spConvert->DataConvert(DBTYPE_BYTES, wType, m_cbDataLen, &cbDst,
-			  m_byteData, pData, cbMaxLen, dbStat, &dbStat, bPrecision, bScale, 0);
-          delete[] m_byteData;
-	}
-	else
-	{
-	  hr = spConvert->DataConvert(DBTYPE_WSTR, wType, m_cbDataLen, &cbDst,
-			  m_strData, pData, cbMaxLen, dbStat, &dbStat, bPrecision, bScale, 0);
-	}
+	hr = spConvert->DataConvert(DBTYPE_WSTR, wType, m_cbDataLen, &cbDst,
+			m_strData, pData, cbMaxLen, dbStat, &dbStat, bPrecision, bScale, 0);
 
 	//modified by swseo
 	if (hr == DB_E_UNSUPPORTEDCONVERSION)
@@ -255,7 +242,7 @@ HRESULT CCUBRIDRowsetRowColumn::ReadData(CComPtr<IDataConvert> &spConvert, DBTYP
 	return S_OK;
 }
 
-HRESULT CCUBRIDRowsetRowColumn::ReadData(int hReq, int iOrdinal, DBTYPE wType, INT u_type)
+HRESULT CCUBRIDRowsetRowColumn::ReadData(int hReq, int iOrdinal, DBTYPE wType)
 {
 	ATLTRACE(atlTraceDBProvider, 2, "CCUBRIDRowsetRowColumn::ReadData(2)\n");
 
@@ -295,7 +282,7 @@ HRESULT CCUBRIDRowsetRowColumn::ReadData(int hReq, int iOrdinal, DBTYPE wType, I
 		}
 		else // DBTYPE_DBTIMESTAMP
 		{
-			m_strData = (PWSTR)malloc(24 * sizeof(WCHAR));
+			m_strData = (PWSTR)malloc(20 * sizeof(WCHAR));
 			swprintf(m_strData, L"%04d-%02d-%02d %02d:%02d:%02d.%03d",
 					date.yr, date.mon, date.day, date.hh, date.mm, date.ss, date.ms);
 			m_cbDataLen = 23 * sizeof(WCHAR);
@@ -304,62 +291,7 @@ HRESULT CCUBRIDRowsetRowColumn::ReadData(int hReq, int iOrdinal, DBTYPE wType, I
 		return S_OK;
 	}
 
-	if (u_type == CCI_U_TYPE_BLOB)
-	{
-	    T_CCI_BLOB blob;
-	    T_CCI_ERROR error;
-	    
-	    int res = cci_get_data (hReq, iOrdinal, CCI_A_TYPE_BLOB, (void *)&blob, &ind);
-	    if(res < 0)
-	    {
-	      m_dwStatus = DBSTATUS_E_UNAVAILABLE;
-	      return S_OK;
-	    }
-	    
-	    DBLENGTH len = (DBLENGTH)cci_blob_size(blob);
-	    m_byteData = new char[len];
-	    res = cci_blob_read (this->m_con, blob, 0, (int)len, m_byteData, &error);
-	    if (res < 0)
-	    {
-	      delete[] m_byteData;
-	      m_dwStatus = DBSTATUS_E_UNAVAILABLE;
-	      return S_OK;
-	    }	    
-	    
-	    m_dwStatus = DBSTATUS_S_OK;
-	    m_cbDataLen = len;	    
-	    cci_blob_free(blob);
-	    return S_OK;
-	}
-	else if (u_type == CCI_U_TYPE_CLOB)
-	{
-	    T_CCI_CLOB clob;
-	    T_CCI_ERROR error;
-	    
-	    int res = cci_get_data (hReq, iOrdinal, CCI_A_TYPE_CLOB, (void *)&clob, &ind);
-	    if(res < 0)
-	    {
-	      m_dwStatus = DBSTATUS_E_UNAVAILABLE;
-	      return S_OK;
-	    }	    
-	    
-	    DBLENGTH len = (DBLENGTH)cci_clob_size(clob);
-	    m_byteData = new char[len];
-	    res = cci_clob_read (this->m_con, clob, 0, (int)len, m_byteData, &error);
-	    if(res < 0)
-	    {
-	      delete[] m_byteData;
-	      m_dwStatus = DBSTATUS_E_UNAVAILABLE;
-	      return S_OK;
-	    }	    
-	    
-	    m_dwStatus = DBSTATUS_S_OK;
-	    m_cbDataLen = len;	    
-	    cci_clob_free(clob);
-	    return S_OK;
-	}
-      
-	if (cci_get_data(hReq, iOrdinal, CCI_A_TYPE_STR, &value, &ind) < 0)
+	if(cci_get_data(hReq, iOrdinal, CCI_A_TYPE_STR, &value, &ind) < 0)
 	{
 		m_dwStatus = DBSTATUS_E_UNAVAILABLE;
 		return S_OK;
@@ -489,7 +421,7 @@ HRESULT CCUBRIDRowsetRow::ReadData(int hReq, bool bOIDOnly, bool bSensitive)
 			pColumns = (CCUBRIDRowsetRowColumn*) malloc(m_cColumns * sizeof(CCUBRIDRowsetRowColumn));
 			if(pColumns==NULL) return E_OUTOFMEMORY;
 			for (int i = 0; i < m_cColumns; i++)
-				pColumns[i].CCUBRIDRowsetRowColumn::CCUBRIDRowsetRowColumn(m_uCodepage, this->m_con);
+				pColumns[i].CCUBRIDRowsetRowColumn::CCUBRIDRowsetRowColumn(m_uCodepage);
 			m_rgColumns = pColumns;
 		}
 	}
@@ -517,7 +449,7 @@ HRESULT CCUBRIDRowsetRow::ReadData(int hReq, bool bOIDOnly, bool bSensitive)
 	for(DBORDINAL i=0;i<m_cColumns;i++)
 	{
 		CCUBRIDRowsetRowColumn *pColCur = &pColumns[i];
-		pColCur->ReadData(hReq, (int) m_pInfo[i].iOrdinal, m_pInfo[i].wType, m_pInfo[i].u_type);
+		pColCur->ReadData(hReq, (int) m_pInfo[i].iOrdinal, m_pInfo[i].wType);
 	}
 
 	return S_OK;
@@ -1022,10 +954,7 @@ HRESULT CCUBRIDRowsetRow::WriteData(ATLBINDINGS *pBinding, void *pData, DBROWCOU
 		{
 			//Storage interface중 ISequentialStream만을 지원
 			if (pBindCur->pObject->iid != IID_ISequentialStream)
-			{
-				pBindCur->pObject=NULL;
 				return E_NOINTERFACE;
-			}
 
 			CComPolyObject<CCUBRIDStream>* pObjStream;
 
@@ -1087,7 +1016,7 @@ HRESULT CCUBRIDRowsetRow::WriteData(ATLBINDINGS *pBinding, void *pData, DBROWCOU
 
 			HRESULT hr = pColCur->TransferData(m_spConvert, (int) m_pInfoCur->iOrdinal, pBindCur->wType,
 								pBindCur->bPrecision, pBindCur->bScale, pDstTemp,
-								pBindCur->cbMaxLen, &dbStatus, &cbDataLen, (int) m_pInfoCur->u_type);
+								pBindCur->cbMaxLen, &dbStatus, &cbDataLen);
 			if (FAILED(hr)) return hr;
 
 			// 고정길이 문자열(SQL의 CHAR, NCHAR)이면 뒤에 공백을 추가한다.

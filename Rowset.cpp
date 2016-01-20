@@ -426,11 +426,10 @@ STDMETHODIMP CCUBRIDRowset::GetColumnInfo(DBORDINAL *pcColumns, DBCOLUMNINFO **p
 						OLECHAR **ppStringsBuffer)
 {
 	ClearError();
-	
 	if(m_nStatus==1) return RaiseError(E_UNEXPECTED, 1, __uuidof(IColumnsInfo), L"This object is in a zombie state");
-	m_uCodepage = GetSessionPtr()->GetCodepage();
 	HRESULT hr = IColumnsInfoImpl<CCUBRIDRowset>::GetColumnInfo(pcColumns, prgInfo, ppStringsBuffer);
 	if(FAILED(hr)) return RaiseError(hr, 0, __uuidof(IColumnsInfo));
+	
 	
 	return hr;
 }
@@ -469,9 +468,7 @@ HRESULT CCUBRIDRowset::CreateRow(DBROWOFFSET lRowsOffset, DBCOUNTITEM &cRowsObta
 	{
 		DBORDINAL cCols;
 		ATLCOLUMNINFO *pInfo = GetColumnInfo(this, &cCols);
-		
-		CCUBRIDSession *ps = this->GetSessionPtr();		
-		ATLTRY(pRow = new CCUBRIDRowsetRow(m_uCodepage, lRowsOffset, cCols, pInfo, m_spConvert, m_Columns.m_defaultVal, ps->GetConnection()))
+		ATLTRY(pRow = new CCUBRIDRowsetRow(m_uCodepage, lRowsOffset, cCols, pInfo, m_spConvert, m_Columns.m_defaultVal))
 		if (pRow == NULL)
 			return E_OUTOFMEMORY;
 

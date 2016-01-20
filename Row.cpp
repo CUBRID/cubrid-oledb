@@ -374,7 +374,7 @@ STDMETHODIMP CCUBRIDRow::Open(IUnknown *pUnkOuter, DBID *pColumnID, REFGUID rgui
 	HRESULT hr = S_OK;
 	int col_index;
 	LPOLESTR colName;
-	T_CCI_U_EXT_TYPE col_type;
+	T_CCI_U_TYPE col_type;
 	bool col_found = false;
 	
 	ClearError();

@@ -110,7 +110,7 @@ private:
 
 	HRESULT DoCASCCICommit(bool bCommit);
 	HRESULT SetCASCCIIsoLevel(ISOLEVEL isoLevel, bool bCheckOnly=false);
-	HRESULT EnterAutoCommitMode(ISOLEVEL level);
+	void EnterAutoCommitMode();
 public:
 	HRESULT AutoCommit(const Util::ITxnCallback *pOwner);
 	HRESULT RowsetCommit();

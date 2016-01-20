@@ -103,7 +103,6 @@ STDMETHODIMP CCUBRIDSession::Connect()
 {
 	ATLTRACE2(atlTraceDBProvider, 3, "CCUBRIDSession::FinalConstruct\n");
 	CConnectionProperties props;
-    int ret;
 	
 	CComPtr<IDBProperties> spDBProps;
 	HRESULT hr = GetDataSource(__uuidof(IDBProperties), (IUnknown**)&spDBProps);
@@ -133,15 +132,9 @@ STDMETHODIMP CCUBRIDSession::Connect()
 		// wrong hostname
 		return DB_SEC_E_AUTH_FAILED;
 	}
-    ret = cci_set_autocommit(rc, CCI_AUTOCOMMIT_FALSE);
-	if(ret!=0)
-	{
-		return CCI_ER_CON_HANDLE;
-	}
-	m_hConn = rc;
-    hr= EnterAutoCommitMode(props.nCommitLevel);
-	if (FAILED(hr)) return DB_SEC_E_AUTH_FAILED;
 
+	m_hConn = rc;
+	EnterAutoCommitMode();
 	return S_OK;
 }
 

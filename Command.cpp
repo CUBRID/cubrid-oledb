@@ -279,10 +279,6 @@ STDMETHODIMP CCUBRIDCommand::PrepareCommand(int hConn, UINT uCodepage, REFIID ri
 		prepareFlag = CCI_PREPARE_INCLUDE_OID | CCI_PREPARE_UPDATABLE;
 
 
-    if(prepareFlag&CCI_PREPARE_UPDATABLE)
-    {
-        cci_set_holdability(hConn, 0);
-    }
 	if ((return_code = cci_prepare(hConn, CW2A(m_strCommandText.m_str, uCodepage), prepareFlag, &error)) < 0)
 	{
 		if (return_code == CCI_ER_DBMS)
@@ -725,7 +721,7 @@ STDMETHODIMP CCUBRIDCommand::Execute(IUnknown * pUnkOuter, REFIID riid, DBPARAMS
 			hr = CreateRowset<CCUBRIDRowset>(pUnkOuter, riid, pParams, pcRowsAffected, ppRowset, pRowset);	
 			
 			if (*ppRowset)
-				pRowset->InitFromCommand(m_hReq, uCodepage,result_count, bIsAsyncExec);
+				pRowset->InitFromCommand(m_hReq, result_count, bIsAsyncExec);
 		} else
 		{
 			GetSessionPtr()->AutoCommit(0);

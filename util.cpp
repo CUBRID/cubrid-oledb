@@ -228,7 +228,6 @@ HRESULT GetConnectionProperties(IDBProperties* pDBProps, CConnectionProperties& 
 	set[1].AddPropertyID(DBPROP_INIT_DATASOURCE);
 	set[1].AddPropertyID(DBPROP_AUTH_USERID);
 	set[1].AddPropertyID(DBPROP_AUTH_PASSWORD);
-	set[1].AddPropertyID(DBPROP_SESS_AUTOCOMMITISOLEVELS);
 
 	ULONG cPropSet = 0;
 	DBPROPSET* pPropSet = NULL;
@@ -248,11 +247,11 @@ HRESULT GetConnectionProperties(IDBProperties* pDBProps, CConnectionProperties& 
 		hr = DB_E_BADPROPERTYVALUE;
 		goto clear;
 	}
+
 	props.strAddr = CW2A(V_BSTR(&(pPropSet[1].rgProperties[0].vValue)));
 	props.strDB = CW2A(V_BSTR(&(pPropSet[1].rgProperties[1].vValue)));
 	props.strUser = CW2A(V_BSTR(&(pPropSet[1].rgProperties[2].vValue)));
 	props.strPass = CW2A(V_BSTR(&(pPropSet[1].rgProperties[3].vValue)));
-	props.nCommitLevel = V_I4(&(pPropSet[1].rgProperties[4].vValue));;
 	hr = S_OK;
 
 clear:
@@ -737,7 +736,6 @@ HRESULT CColumnsInfo::GetColumnInfoCommon(UINT uCodepage, T_CCI_COL_INFO* info, 
 		}
 		m_pInfo[i].pTypeInfo = NULL;
 		m_pInfo[i].iOrdinal = iOrdinal;
-		m_pInfo[i].u_type = info->ext_type;
 
 		// method를 통해 생성된 result-set은 그 column-name을 "METHOD_RESULT"
 		// 로 설정하고 column-type은 varchar로 지정한다.
@@ -752,11 +750,6 @@ HRESULT CColumnsInfo::GetColumnInfoCommon(UINT uCodepage, T_CCI_COL_INFO* info, 
 			m_pInfo[i].ulColumnSize = ulMaxLen;
 		else
 			m_pInfo[i].ulColumnSize = dyn_info.ulColumnSize;
-
-        if(m_pInfo[i].wType == DBTYPE_BYTES && m_pInfo[i].ulColumnSize<ulMaxLen)
-        {
-           m_pInfo[i].ulColumnSize++;
-        }
 
 		m_pInfo[i].bPrecision = dyn_info.bPrecision;
 		m_pInfo[i].bScale = dyn_info.bScale;
