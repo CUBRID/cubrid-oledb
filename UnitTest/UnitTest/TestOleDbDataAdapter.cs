@@ -211,9 +211,9 @@ namespace UnitTest
             int affectedRowCount = adapter.Fill(dt);
             //refresh
             affectedRowCount = adapter.Fill(dt);
-            Assert.AreEqual(0, dt.PrimaryKey.Length);
+            Assert.AreEqual(1, dt.PrimaryKey.Length);
             Assert.AreEqual(3, affectedRowCount);
-            Assert.AreEqual(6, dt.Rows.Count);
+            Assert.AreEqual(3, dt.Rows.Count);
         }
 
         [TestMethod]

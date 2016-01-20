@@ -53,7 +53,7 @@ private:
 	char			m_OID[32];
 	int				m_colIndex;
 	LPOLESTR		m_colName;
-	T_CCI_U_EXT_TYPE	m_colType;
+	T_CCI_U_TYPE	m_colType;
 	int				m_colPrecision;
 	int				m_colScale;
 	ULONG			m_curPos;
