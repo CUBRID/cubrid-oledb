@@ -104,7 +104,6 @@ namespace UnitTest
         public void TestFillDataSetRefreshWith_Schema()
         {
             OleDbDataAdapter adapter = createAdapter();
-            adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             adapter.SelectCommand.CommandText = "select * from student";
             adapter.TableMappings.Add("Table", "student");
 
@@ -113,7 +112,7 @@ namespace UnitTest
             int affectedRowCount = adapter.Fill(studentDS);
             Assert.AreEqual(3, affectedRowCount);
             Assert.AreEqual(1, studentDS.Tables.Count);
-            Assert.AreEqual(3, studentDS.Tables["student"].Rows.Count);
+            Assert.AreEqual(6, studentDS.Tables["student"].Rows.Count);
         }
 
         [TestMethod]
@@ -308,7 +307,6 @@ namespace UnitTest
         public void TestRefreshDataTableWithADODBRecordSet_Schema()
         {
             OleDbDataAdapter adapter = new OleDbDataAdapter();
-            adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             DataSet stuDS = new DataSet();
             DataTable stuTable = new DataTable("student");
             stuDS.Tables.Add(stuTable);
@@ -347,33 +345,6 @@ namespace UnitTest
             adoConn.Close();
             Assert.AreEqual(3, fillRowCount);
             Assert.AreEqual(3, stuTable.Rows.Count);
-        }
-
-        [TestMethod]
-        public void TestUpdateDataRow() {
-            OleDbDataAdapter adapter = createAdapter();
-            adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
-            adapter.SelectCommand.CommandText = "select * from student";
-            adapter.TableMappings.Add("Table", "student");
-            DataSet studentDS = new DataSet("Student DS");
-            adapter.FillSchema(studentDS, SchemaType.Mapped);
-            DataTable table = studentDS.Tables["student"];
-            DataColumn col = studentDS.Tables["student"].Columns["id"];
-            col.AutoIncrement = true;
-            col.AutoIncrementSeed = 100;
-            col.AutoIncrementStep = 1;
-            adapter.Fill(studentDS);
-
-            adapter.InsertCommand = new OleDbCommand("insert into student(name) values (?)", TestCases.conn);
-            adapter.InsertCommand.Parameters.Add("name", OleDbType.VarChar);
-            DataRow row = studentDS.Tables["student"].NewRow();
-            row["name"] = "qiancan ";
-            studentDS.Tables["student"].Rows.Add(row);
-            row = studentDS.Tables["student"].NewRow();
-            row["name"] = "liuhongjiang ";
-            studentDS.Tables["student"].Rows.Add(row);
-
-            adapter.Update(studentDS.Tables["student"].Select(null, null, DataViewRowState.Added));
         }
     }
 }
