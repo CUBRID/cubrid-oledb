@@ -48,7 +48,7 @@ namespace UnitTest
 
                 foreach (System.Data.DataRow row in table.Rows)
                 {
-                    Assert.AreEqual(table.Rows.Count, 17);
+                    Assert.AreEqual(table.Rows.Count, 16);
 
                     foreach (System.Data.DataColumn col in table.Columns)
                     {
