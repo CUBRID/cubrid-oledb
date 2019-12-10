@@ -22,31 +22,31 @@
     <ProjectGuid>{47F98C66-1ADB-438D-9C38-A137D7B0C3D6}</ProjectGuid>
     <RootNamespace>CUBRIDProvider</RootNamespace>
     <Keyword>AtlProj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <UseOfAtl>Static</UseOfAtl>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <UseOfAtl>Static</UseOfAtl>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <UseOfAtl>Static</UseOfAtl>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
-    <UseOfAtl>false</UseOfAtl>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfAtl>Static</UseOfAtl>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+    <_ProjectFileVersion>15.0.26419.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
@@ -98,8 +98,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command />
     </PreBuildEvent>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -111,7 +110,6 @@
       <DllDataFileName />
       <InterfaceIdentifierFileName>CUBRIDProvider_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>CUBRIDProvider_p.c</ProxyFileName>
-      <ValidateAllParameters>true</ValidateAllParameters>
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -120,10 +118,11 @@
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(IntDir)CUBRIDProvider.pch</PrecompiledHeaderOutputFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -131,7 +130,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cas_cci_d.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cas_cci_d.lib;wsock32.lib;regex38a_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>.\cci\lib32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <MergedIDLBaseFileName>$(OutDir)_CUBRIDProvider.idl</MergedIDLBaseFileName>
@@ -142,6 +141,7 @@
       <DataExecutionPrevention />
       <ImportLibrary>$(OutDir)CUBRIDProvider.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+      <Profile>true</Profile>
     </Link>
     <PostBuildEvent>
       <Message>Performing registration</Message>
@@ -150,8 +150,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command />
     </PreBuildEvent>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -163,7 +162,6 @@
       <DllDataFileName />
       <InterfaceIdentifierFileName>CUBRIDProvider_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>CUBRIDProvider_p.c</ProxyFileName>
-      <ValidateAllParameters>true</ValidateAllParameters>
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -172,12 +170,11 @@
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(IntDir)CUBRIDProvider.pch</PrecompiledHeaderOutputFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4581;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -185,7 +182,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cas_cci_d.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cas_cci_d.lib;wsock32.lib;regex38a_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>.\cci\lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <MergedIDLBaseFileName>$(OutDir)_CUBRIDProvider.idl</MergedIDLBaseFileName>
@@ -204,8 +201,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command />
     </PreBuildEvent>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -217,7 +213,6 @@
       <DllDataFileName />
       <InterfaceIdentifierFileName>CUBRIDProvider_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>CUBRIDProvider_p.c</ProxyFileName>
-      <ValidateAllParameters>true</ValidateAllParameters>
     </Midl>
     <ClCompile>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
@@ -226,7 +221,7 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(IntDir)CUBRIDProvider.pch</PrecompiledHeaderOutputFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -237,7 +232,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cas_cci.lib;regex38a.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cas_cci.lib;wsock32.lib;regex38a.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>.\cci\lib32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreEmbeddedIDL>false</IgnoreEmbeddedIDL>
@@ -259,8 +254,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command />
     </PreBuildEvent>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -272,7 +266,6 @@
       <DllDataFileName />
       <InterfaceIdentifierFileName>CUBRIDProvider_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>CUBRIDProvider_p.c</ProxyFileName>
-      <ValidateAllParameters>true</ValidateAllParameters>
     </Midl>
     <ClCompile>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
@@ -281,7 +274,7 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(IntDir)CUBRIDProvider.pch</PrecompiledHeaderOutputFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -293,7 +286,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cas_cci.lib;regex38a.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cas_cci.lib;wsock32.lib;regex38a.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>.\cci\lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreEmbeddedIDL>false</IgnoreEmbeddedIDL>
@@ -313,6 +306,9 @@
       <Command>regsvr32 /s /c "$(TargetPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <Midl Include="_CUBRIDProvider.idl" />
+  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CUBRIDProvider.cpp" />
@@ -340,15 +336,20 @@
     <ClCompile Include="SRTablesInfo.cpp" />
     <ClCompile Include="SRViewColumnUsage.cpp" />
     <ClCompile Include="SRViews.cpp" />
-    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="TransactionLocal.cpp" />
     <ClCompile Include="type.cpp" />
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\cci\cas_cci.h" />
     <ClInclude Include="atldb_cubrid.h" />
     <ClInclude Include="atldb_orig.h" />
-    <ClInclude Include="..\..\src\cci\cas_cci.h" />
     <ClInclude Include="ColumnsRowset.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CUBRIDRowRowset.h" />
@@ -386,9 +387,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CUBRIDProvider.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Midl Include="_CUBRIDProvider.idl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
