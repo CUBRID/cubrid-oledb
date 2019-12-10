@@ -123,7 +123,7 @@ static HRESULT FetchData(int hReq, UINT uCodepage, CCOLUMNSRow &crData)
 	if(ind==-1)
 	{
 		crData.m_bColumnHasDefault = ATL_VARIANT_FALSE;
-		crData.m_szColumnDefault[0] = L'';
+		crData.m_szColumnDefault[0] = L'\x0';
 	}
 	else
 	{
