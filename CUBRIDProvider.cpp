@@ -63,7 +63,7 @@ private:
 public:
 	CCUBRIDProviderModule()
 	{
-		CTrace::s_trace.SetLevel(DEFAULT_TRACE_LEVEL);
+		CTrace::SetLevel(DEFAULT_TRACE_LEVEL);
 		cci_init();
 #ifdef ENABLE_LOGGING
 		m_fWarnMode = ::_CrtSetReportMode(_CRT_WARN, _CRTDBG_REPORT_MODE);
