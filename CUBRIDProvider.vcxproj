@@ -232,7 +232,7 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cas_cci.lib;wsock32.lib;libssl.lib;libcrypto.lib;Crypt32.lib;Ws2_32.lib;msvcrtd.lib;msvcmrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cas_cci.lib;wsock32.lib;libssl.lib;libcrypto.lib;Crypt32.lib;Ws2_32.lib;Msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>.\cci\lib32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreEmbeddedIDL>false</IgnoreEmbeddedIDL>
