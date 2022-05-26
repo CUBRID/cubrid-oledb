@@ -272,7 +272,7 @@ namespace UnitTest
             //  as.NET library ADODB.dll using TlbImp.exe
             ADODB.Connection adoConn = new ADODB.Connection();
             ADODB.Recordset adoRS = new ADODB.Recordset();
-            adoConn.Open("Provider=CUBRIDProvider;Location=test-db-server;Data Source=demodb;User Id=dba;Port=30000", "", "", -1);
+            adoConn.Open("Provider=CUBRIDProvider;Location==test-db-server;Data Source=demodb;User Id=public;Port=30000", "", "", -1);
             adoRS.Open("SELECT * FROM student", adoConn, ADODB.CursorTypeEnum.adOpenDynamic, ADODB.LockTypeEnum.adLockReadOnly, 1);
             int fillRowCount = adapter.Fill(stuTable, adoRS);
             adoRS.Close();
@@ -291,7 +291,7 @@ namespace UnitTest
             //  as.NET library ADODB.dll using TlbImp.exe
             ADODB.Connection adoConn = new ADODB.Connection();
             ADODB.Recordset adoRS = new ADODB.Recordset();
-            adoConn.Open("Provider=CUBRIDProvider;Location=test-db-server;Data Source=demodb;User Id=dba;Port=30000", "", "", -1);
+            adoConn.Open("Provider=CUBRIDProvider;Location==test-db-server;Data Source=demodb;User Id=public;Port=30000", "", "", -1);
             adoRS.Open("SELECT * FROM student", adoConn, ADODB.CursorTypeEnum.adOpenDynamic, ADODB.LockTypeEnum.adLockReadOnly, 1);
             adapter.Fill(stuTable, adoRS);
             adoRS.Requery(0);
@@ -314,7 +314,7 @@ namespace UnitTest
             //  as.NET library ADODB.dll using TlbImp.exe
             ADODB.Connection adoConn = new ADODB.Connection();
             ADODB.Recordset adoRS = new ADODB.Recordset();
-            adoConn.Open("Provider=CUBRIDProvider;Location=test-db-server;Data Source=demodb;User Id=dba;Port=30000", "", "", -1);
+            adoConn.Open("Provider=CUBRIDProvider;Location==test-db-server;Data Source=demodb;User Id=public;Port=30000", "", "", -1);
             adoRS.Open("SELECT * FROM student", adoConn, ADODB.CursorTypeEnum.adOpenDynamic, ADODB.LockTypeEnum.adLockReadOnly, 1);
             adapter.Fill(stuTable, adoRS);
             adoRS.Requery(0);
@@ -338,7 +338,7 @@ namespace UnitTest
             //  as.NET library ADODB.dll using TlbImp.exe
             ADODB.Connection adoConn = new ADODB.Connection();
             ADODB.Recordset adoRS = new ADODB.Recordset();
-            adoConn.Open("Provider=CUBRIDProvider;Location=test-db-server;Data Source=demodb;User Id=dba;Port=30000", "", "", -1);
+            adoConn.Open("Provider=CUBRIDProvider;Location==test-db-server;Data Source=demodb;User Id=public;Port=30000", "", "", -1);
             adoRS.Open("SELECT * FROM student", adoConn, ADODB.CursorTypeEnum.adOpenDynamic, ADODB.LockTypeEnum.adLockReadOnly, 1);
             int fillRowCount = adapter.Fill(stuDS, adoRS, "student"); //This method implicitly calls Close on the ADO object when the fill operation is complete.
             //adoRS.Close();

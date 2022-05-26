@@ -43,7 +43,7 @@ namespace UnitTest
             }
 
             OleDbCommand t1 = commandBuilder.GetInsertCommand();
-            Assert.AreEqual(t1.CommandText, "INSERT INTO T DEFAULT VALUES");
+            Assert.AreEqual(t1.CommandText, "INSERT INTO PUBLIC.T DEFAULT VALUES");
         }
         private static void Test_Command_QuoteIdentifier()
         {
