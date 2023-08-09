@@ -43,7 +43,7 @@ namespace UnitTest
     /// </summary>
     public class TestCasesOld
     {
-        public static readonly string connString = "Provider=CUBRIDProvider;Location=test-db-server;Data Source=demodb;User Id=dba;Port=30000";
+        public static readonly string connString = "Provider=CUBRIDProvider;Location=test_db_server;Data Source=demodb;User Id=public;Port=33000";
 
         static int executed = 0;
         static int passed = 0;

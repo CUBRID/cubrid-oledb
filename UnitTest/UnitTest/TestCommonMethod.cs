@@ -23,7 +23,7 @@ namespace UnitTest
 
             using (OleDbCommand cmd = new OleDbCommand(sql, conn))
             {
-                count = (int)cmd.ExecuteScalar();
+                count = Convert.ToInt32(cmd.ExecuteScalar());
             }
 
             return count;
@@ -37,7 +37,7 @@ namespace UnitTest
             using (OleDbCommand cmd = new OleDbCommand(sql, conn))
             {
                 cmd.Transaction = transaction;
-                count = (int)cmd.ExecuteScalar();
+                count = Convert.ToInt32(cmd.ExecuteScalar());
             }
 
             return count;
@@ -49,7 +49,7 @@ namespace UnitTest
 
             using (OleDbCommand cmd = new OleDbCommand(sql, conn))
             {
-                count = (int)cmd.ExecuteScalar();
+                count = Convert.ToInt32(cmd.ExecuteScalar());
             }
 
             return count;
